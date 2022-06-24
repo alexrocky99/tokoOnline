@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formProductTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formProductTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{productEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formProductAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{productEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formProductEditTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductSKU}" for="SKU" />
+							</label>
+							<p:inputText id="SKU" styleClass="form-control" value="#{productEditBean.product.sku}" autocomplete="off" 
+								readonly="true"/>
+							<p:message for="SKU" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductCode}" for="productCode" />
+							</label>
+							<p:inputText id="productCode" styleClass="form-control" value="#{productEditBean.product.productCode}" autocomplete="off"
+								readonly="true"/>
+							<p:message for="productCode" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductName}" for="productName" />
+							</label>
+							<p:inputText id="productName" styleClass="form-control" value="#{productEditBean.product.productName}" 
+								required="true" requiredMessage="#{msg.formProductName} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="productName" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductDescription}" for="productDescription" />
+							</label>
+							<p:inputTextarea id="productDescription" rows="5" styleClass="form-control" value="#{productEditBean.product.description}" />
+						</div>
+					</div>
+					
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductCurrentStock}" for="currentStock" />
+							</label>
+							<p:inputNumber id="currentStock" styleClass="form-control" value="#{productEditBean.product.totalStock}"
+								decimalPlaces="0" disabled="true"/>
+						</div>
+					</div>
+					
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductPrice} (Rp)" for="price" />
+							</label>
+							<p:inputNumber id="price" styleClass="form-control" value="#{productEditBean.product.price}"
+								modifyValueOnWheel="false" />
+						</div>
+					</div>
+					
+					<h3>
+						<h:outputText value="#{msg.formProductModalTitle}" />
+					</h3>
+					<div class="col-lg-12">
+						<div id="mp-pic-compliance">
+							<h4 class="sub-header">
+								&nbsp;
+								<div class="box-tools">
+									<ul class="no-margin no-padding">
+										<li>
+											<p:commandLink onclick="onAddNewProductModal();">
+												<i class="fa fa-plus"></i>
+											</p:commandLink>
+										</li>
+										<li>
+											<p:commandLink onclick="onDeleteRowProductModal();">
+												<i class="fa fa-trash"></i>
+											</p:commandLink>
+										</li>
+									</ul>
+								</div>
+							</h4>
+							<div class="table-wrapper table-responsive">
+								<p:dataTable id="tableProductModal" var="vo" value="#{productEditBean.tableDataProductModal}"
+									rowIndexVar="statIndex" style="width:100%;" selection="#{productEditBean.selectedDataProductModal}"
+									rowKey="#{vo.sequence}" rowSelectMode="checkbox">
+									
+									<p:ajax event="rowSelectCheckbox" process="@this" />
+									<p:ajax event="rowUnselectCheckbox" process="@this" />
+									<p:ajax event="toggleSelect" process="@this" />
+									
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column rowspan="2" width="20"/>
+											<p:column rowspan="2" headerText="#{msg.formProductModalDistributor} *" />
+											<p:column colspan="2" headerText="#{msg.formProductModalPrice} (Rp)" style="text-align:center" />
+											<p:column colspan="2" headerText="#{msg.formProductModalStock}" style="text-align:center" />
+											<p:column rowspan="2" headerText="#{msg.textAction}" style="text-align:center" />
+										</p:row>
+										<p:row>
+											<p:column headerText="#{msg.formProductModalCurrentPrice}"/>
+											<p:column headerText="#{msg.formProductModalUpdatePrice}" />
+											<p:column headerText="#{msg.formProductModalCurrentStock}" />
+											<p:column headerText="#{msg.formProductModalUpdateStock}" />
+										</p:row>
+									</p:columnGroup>
+									
+									<p:column selectionMode="multiple" style="text-align:center; width:40px;" />
+									
+									<p:column>
+										<h:selectOneMenu id="productFrom" styleClass="form-control s2"
+											value="#{vo.productFrom}">
+											<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+											<f:selectItems value="#{productEditBean.productFromList}"/>
+											<p:ajax event="change" />
+										</h:selectOneMenu>
+									</p:column>
+									
+									<p:column>
+										<p:inputNumber id="currentPrice" thousandSeparator="." styleClass="form-control input-number"
+											autocomplete="off" value="#{vo.currentPrice}" disabled="true">
+										</p:inputNumber>
+									</p:column>
+									
+									<p:column>
+										<p:inputNumber id="updatePrice" thousandSeparator="." styleClass="form-control input-number"
+											autocomplete="off" value="#{vo.updatePrice}">
+											<p:ajax event="change" />
+										</p:inputNumber>
+									</p:column>
+									
+									<p:column>
+										<p:inputNumber id="currentStock" thousandSeparator="." styleClass="form-control input-number" decimalPlaces="0"
+											autocomplete="off" value="#{vo.currentStock}" disabled="true">
+										</p:inputNumber>
+									</p:column>
+									
+									<p:column>
+										<p:inputNumber id="updateStock" thousandSeparator="." styleClass="form-control input-number" decimalPlaces="0"
+											autocomplete="off" value="#{vo.updateStock}">
+											<p:ajax event="change" />
+										</p:inputNumber>
+									</p:column>
+									
+									<p:column style="text-align:center">
+										<p:commandLink value="#{msg.textView}" rendered="#{vo.isModalDetail}"
+											process="@this" oncomplete="productModalDetailDialog.show();"
+											actionListener="#{productEditBean.initProductModalDetail()}" update="form:tableProductModalDetail">
+											<f:param name="productModalId" value="#{vo.productModalId}" />
+										</p:commandLink>
+									</p:column>
+									
+								</p:dataTable>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{productEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{productEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+				
+				<p:remoteCommand action="#{productEditBean.onAddNewProductModal}" immediate="true"
+					name="onAddNewProductModal" update="tableProductModal"></p:remoteCommand>
+				<p:remoteCommand action="#{productEditBean.onDeleteRowProductModal}" immediate="true"
+					name="onDeleteRowProductModal" update="tableProductModal"></p:remoteCommand>
+			</div>
+		</div>
+		
+		<p:dialog id="productModalDetailDialog" position="center" appendToBody="true" fitViewport="true"
+			header="Detail Stock" widgetVar="productModalDetailDialog" responsive="true" height="200" width="600">
+			
+			<p:dataTable id="tableProductModalDetail" value="#{productEditBean.productModalDetailList}" var="vo"
+				rows="10" lazy="true" paginator="true" paginatorPosition="top" rowIndexVar="statIndex"
+				reflow="true" styleClass="table-needs-hover-marker">
+
+				<p:column headerText="No" width="30">
+					<h:outputLabel value="#{statIndex + 1}" />
+				</p:column>
+
+				<p:column headerText="#{msg.formProductModalPrice}" width="100">
+					<h:outputText title="#{vo.price}" value="#{vo.price}">
+						<f:convertNumber currencySymbol="Rp. " type="currency"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="#{msg.formProductModalStock}" width="50">
+					<h:outputText title="#{vo.stock}" value="#{vo.stock}" />
+				</p:column>
+
+				<p:column headerText="#{msg.formProductModalCreateOn}" width="100">
+					<h:outputLabel value="#{vo.createOnStr}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:dialog>
+		
+	</ui:define>
+	
+</ui:composition>

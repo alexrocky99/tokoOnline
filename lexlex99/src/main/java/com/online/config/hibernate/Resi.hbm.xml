@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.transaction.resi.model">
+	<class name="Resi" table="trc_receipt">
+		<id name="receiptId" column="RECEIPT_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<property name="receiptDate" column="RECEIPT_DATE" type="date" />
+		<property name="paymentStatus" column="PAYMENT_STATUS" type="string" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+		<bag name="resiDetailList" inverse="true" cascade="save-update, delete-orphan"
+			order-by="receipt_detail_id asc">
+			<key column="receipt_id" />
+			<one-to-many not-found="ignore" class="com.online.module.transaction.resi.model.ResiDetail" />
+		</bag>
+	</class>
+</hibernate-mapping>

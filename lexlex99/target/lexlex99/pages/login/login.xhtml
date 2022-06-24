@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<f:view>
+		<h:head>
+			<meta content="charset=UTF-8" />
+			<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+			<title>Lexlex99 Login</title>
+			
+			<meta content="q4vctHEYfTCPgDjDlFAXJRAoSSNiclXnnr4MFC6d" name="csrf-token" />
+			<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport" />
+			
+			<link rel="stylesheet" href="#{request.contextPath}/resources/css/admin-lte.css?id=0fdcd2b94e7737dfa796" />
+			<link rel="stylesheet" href="#{request.contextPath}/resources/css/auth.css?id=6057d54aca6b5ddc8784" />
+			
+			<link href="#{request.contextPath}/resources/icons/store.png" rel="icon" />
+		</h:head>
+	</f:view>
+	
+	<h:body class="hold-transition login-page">
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide();" />
+		
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false"
+			responsive="true" style="background: none; box-shadow: none; border: none;">
+			<h:graphicImage library="icons" name="Wedges-3s-80px.gif" />
+		</p:dialog>
+		
+		<div class="login-box">
+			<div class="login-box-body">
+				<div class="login-logo">
+					<a href="/">
+					</a>
+				</div>
+				<p class="login-box-msg tl-label">
+					<h:outputText id="welcome" value="#{msg.welcomeMessage}" />
+					<br /> <b>#{msg.loginTitle}</b>
+				</p>
+				
+				<h:form id="form">
+					<h:inputHidden value="q4vctHEYfTCPgDjDlFAXJRAoSSNiclXnnr4MFC6d" />
+					<h:inputHidden value="#{loginBean.token}"></h:inputHidden>
+					<h:inputHidden value="#{loginBean.menuId}"></h:inputHidden>
+					<div class="form-group has-feedback">
+						<p:message for="email" />
+						<p:inputText id="email" required="true"
+							requiredMessage="#{msg.textEmail} #{msg.validateRequired}"
+							styleClass="form-control tl-placeholder" name="email"
+							value="#{loginBean.username}" placeholder="#{msg.textEmail}" />
+						<span class="typcn typcn-user-outline form-control-feedback"></span>
+					</div>
+					<div class="form-group has-feedback">
+						<p:message for="password" />
+						<p:password id="password" styleClass="form-control tl-placeholder"
+							name="password" placeholder="#{msg.textPassword}" required="true"
+							requiredMessage="#{msg.textPassword} #{msg.validateRequired}"
+							value="#{loginBean.password}" />
+						<span class="typcn typcn-key-outline form-control-feedback"></span>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<p:commandButton value="#{msg.textSignIn}"
+								styleClass="btn btn-orange btn-block btn-flat text-uppercase tl-label"
+								onclick="loginOnClick([{name: 'LANGUAGE', value:$('.disabled').text()}])"/>
+							<p:remoteCommand name="loginOnClick" actionListener="#{loginBean.doHandleLogin()}" process="@form" update="@form" />
+						</div>
+					</div>
+				</h:form>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 copyright">
+					<h:outputText value="#{loginBean.copyrigthYear}" />
+				</div>
+			</div>
+		</div>
+		
+		<script src="#{request.contextPath}/resources/js/manifest.js?id=2f14240c70fe0f88d8db" charset="utf-8"></script>
+		<script src="#{request.contextPath}/resources/js/vendor.js?id=72dd4b5294cee68800cb" charset="utf-8"></script>
+		<script src="#{request.contextPath}/resources/js/auth.js?id=dc33b59d3726ac4aaa4a"></script>
+	</h:body>
+	
+</html>

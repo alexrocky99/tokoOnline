@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formProductTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formProductTitle}" />
+	</ui:define>
+	
+	<ui:define name="buttonAdd">
+		<ul class="action list-inline">
+			<li>
+				<h:commandLink action="#{productBean.getNavigateEdit()}" type="submit"
+					process="@this" ajax="false" styleClass="tl-label">
+					<i class="fa fa-fw fa-plus" aria-hidden="true"/>
+					<h:outputText value="#{msg.textAdd}" />
+				</h:commandLink>
+			</li>
+		</ul>
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+					<h:panelGroup id="panelSearch">
+					
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formProductCode}" />
+								</label>
+								<p:inputText id="productCode" styleClass="form-control" value="#{productBean.searchProductCode}" autocomplete="off" />
+							</div>
+						</div>
+					
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formProductName}" />
+								</label>
+								<p:inputText id="productName" styleClass="form-control" value="#{productBean.searchProductName}" autocomplete="off" />
+							</div>
+						</div>
+						
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formProductSortBy}" />
+								</label>
+								<h:selectOneMenu styleClass="form-control s2" value="#{productBean.searchProductSortBy}">
+									<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+									<f:selectItems value="#{productBean.sortByProduct}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</h:panelGroup>
+					
+					<div class="col-lg-12">
+						<div class="filter-tools">
+							<ul class="no-margin no-padding">
+								<li>
+									<p:commandButton value="#{msg.textSearch}" ajax="true" update="tableProduct"
+										styleClass="btn btn-success tl-label" actionListener="#{productBean.search}">
+									</p:commandButton>
+								</li>
+								<li>
+									<p:commandButton value="#{msg.textReset}" ajax="true" update="tableProduct form:panelSearch"
+										styleClass="btn btn-default btn-flat tl-label" actionListener="#{productBean.reset}">
+									</p:commandButton>
+								</li>
+							</ul>
+						</div>
+						<br />
+						<div>
+							<div class="row">
+								<div class="col-lg-6">
+									<h6>Step 1</h6>
+									<div class="filter-tools">
+										<ul class="no-margin no-padding">
+											<li>
+												<p:commandButton value="Generate Template Step 1" ajax="false" styleClass="btn btn-success tl-label">
+													<p:fileDownload value="#{productBean.templateStep1}" />
+												</p:commandButton>
+											</li>
+											<li>
+												<p:fileUpload mode="advanced" multiple="false"
+													auto="true" allowTypes="/(\.|\/)(xls|xlsx)$/"
+													update="tableProduct form:deletedMessage"
+													listener="#{productBean.uploadFileStep1}"></p:fileUpload>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<h6>Step 2</h6>
+									<div class="filter-tools">
+										<ul class="no-margin no-padding">
+											<li>
+												<p:commandButton value="Generate Template Step 2" ajax="false" styleClass="btn btn-success tl-label">
+													<p:fileDownload value="#{productBean.templateStep2}" />
+												</p:commandButton>
+											</li>
+											<li>
+												<p:fileUpload mode="advanced" multiple="false"
+													auto="true" allowTypes="/(\.|\/)(xls|xlsx)$/"
+													update="tableProduct form:deletedMessage"
+													listener="#{productBean.uploadFileStep2}"></p:fileUpload>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-12">&nbsp;</div>
+						
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<p:dataTable id="tableProduct" paginator="true" var="vo" value="#{productBean.tableModel}" dynamic="true"
+									lazy="true" emptyMessage="#{msg.textNoData}" rows="#{productBean.paging}" rowIndexVar="startIndex"
+									styleClass="table table-striped table-hover" rowStyleClass="#{statIndex % 2 == 1 ? 'odd' : null}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+									
+									<p:column style="text-align:center;" headerText="#{msg.textNo}">
+										<p:outputLabel title="#{startIndex+1}" value="#{startIndex+1}" />
+									</p:column>
+									
+									<p:column style="text-align:center" headerText="#{msg.textAction}">
+										<h:panelGrid columns="2" border="0">
+											<p:commandLink id="edit" action="#{productBean.getNavigateEdit()}"
+												type="submit" ajax="false" styleClass="tl-label">
+												<img style="width:20px;height:20px" src="#{request.contextPath}/resources/icons/edit.png" alt="edit" />
+												<f:param name="editId" value="#{vo.productId}" />
+											</p:commandLink>
+											
+											<p:commandLink id="Delete" styleClass="tl-label" update="tableProduct form:deletedMessage"
+												action="#{productBean.delete(vo.productId)}">
+												<img style="width:20px;height:20px" src="#{request.contextPath}/resources/icons/delete.png" alt="delete" />
+												<p:confirm header="Confirmation" message="#{msg.formDeleteMessage}" icon="pi pi-exclamation-triangle" />
+											</p:commandLink>
+										</h:panelGrid>
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formProductCode}">
+										<p:outputLabel title="#{vo.productCode}" value="#{vo.productCode}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formProductSKU}">
+										<p:outputLabel title="#{vo.sku}" value="#{vo.sku}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formProductName}">
+										<p:outputLabel title="#{vo.productName}" value="#{vo.productName}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formProductBarcode}">
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formProductCurrentStock}">
+										<p:outputLabel title="#{vo.totalStock}" value="#{vo.totalStock}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formProductPrice}">
+										<h:outputText title="#{vo.price}" value="#{vo.price}">
+											<f:convertNumber currencySymbol="Rp. " type="currency"></f:convertNumber>
+										</h:outputText >
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<p:confirmDialog id="deleteConfirm" global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="#{msg.textYes}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="#{msg.textNo}" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+		
+	</ui:define>
+	
+</ui:composition>

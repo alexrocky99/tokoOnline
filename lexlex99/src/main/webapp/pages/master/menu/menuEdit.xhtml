@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formMenuTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formMenuTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{menuEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formMenuAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{menuEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formMenuEditTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuName}" for="menuName" />
+							</label>
+							<p:inputText id="menuName" styleClass="form-control" value="#{menuEditBean.menu.name}" 
+								required="true" requiredMessage="#{msg.formMenuName} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="menuName" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuAction}" for="menuAction" />
+							</label>
+							<p:inputText id="menuAction" styleClass="form-control" value="#{menuEditBean.menu.action}" 
+								autocomplete="off" disabled="true" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuParent}" for="menuParent" />
+							</label>
+							<h:selectOneMenu id="menuParent" styleClass="form-control s2" value="#{menuEditBean.menu.parentId}"
+								disabled="true">
+								<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+								<f:selectItems value="#{menuEditBean.menuParentList}" />
+							</h:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuFontawesome}" for="fontawesome" />
+							</label>
+							<p:inputText id="fontawesome" styleClass="form-control" value="#{menuEditBean.menu.fontawesome}" 
+								autocomplete="off" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuDescription}" for="description" />
+							</label>
+							<p:inputTextarea id="description" rows="5" styleClass="form-control" value="#{menuEditBean.menu.description}" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuLevel}" for="menuLevel" />
+							</label>
+							<p:inputText id="menuLevel" styleClass="form-control" value="#{menuEditBean.menu.menuLevel}" 
+								autocomplete="off" disabled="true" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuOrder}" for="menuOrder" />
+							</label>
+							<p:inputText id="menuOrder" styleClass="form-control" value="#{menuEditBean.menu.menuOrder}" 
+								required="true" requiredMessage="#{msg.formMenuOrder} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="menuOrder" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formMenuType}" for="menuType" />
+							</label>
+							<h:selectOneMenu id="menuType" styleClass="form-control s2" value="#{menuEditBean.menu.menuType}"
+								disabled="true">
+								<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+								<f:selectItems value="#{menuEditBean.menuTypeList}" />
+							</h:selectOneMenu>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{menuEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{menuEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+			</div>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

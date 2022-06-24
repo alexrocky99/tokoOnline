@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+						http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+	
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	</application>
+	
+	<application>
+		<locale-config>
+			<default-locale>in</default-locale>
+			<supported-locale>in</supported-locale>
+			<supported-locale>en</supported-locale>
+		</locale-config>
+	</application>
+	
+	<application>
+		<resource-bundle>
+			<base-name>com.online.resources.ApplicationResources</base-name>
+			<var>msg</var>
+		</resource-bundle>
+		
+		<system-event-listener>
+			<system-event-listener-class>com.online.module.common.listener.ApplicationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostConstructApplicationEvent</system-event-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.online.module.common.listener.ApplicationListener</system-event-listener-class>
+			<system-event-class>javax.faces.event.PreDestroyApplicationEvent</system-event-class>
+		</system-event-listener>
+	</application>
+	
+	<lifecycle>
+		<phase-listener>com.online.module.common.AccessControlPhaseListener</phase-listener>
+	</lifecycle>
+	
+	<!-- LOV Common -->
+	<managed-bean>
+		<managed-bean-name>mbLovCommon</managed-bean-name>
+		<managed-bean-class>com.online.module.lov.bean.MbLovCommon</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>selectorService</property-name>
+			<value>#{selectorService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>selectorNativeService</property-name>
+			<value>#{selectorNativeService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- LOV Common -->
+	
+	<!-- Faces Util -->
+	<managed-bean>
+		<managed-bean-name>facesUtil</managed-bean-name>
+		<managed-bean-class>com.online.module.lov.bean.FacesUtil</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<!-- Faces Util -->
+	
+	<!-- LoginBean -->
+	<managed-bean>
+		<managed-bean-name>loginBean</managed-bean-name>
+		<managed-bean-class>com.online.module.login.bean.LoginBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>peopleService</property-name>
+			<value>#{peopleService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>menuSessionService</property-name>
+			<value>#{menuSessionService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- LoginBean -->
+	
+	<!-- HeaderBean -->
+	<managed-bean>
+		<managed-bean-name>headerBean</managed-bean-name>
+		<managed-bean-class>com.online.module.header.bean.HeaderBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- HeaderBean -->
+	
+	<!-- MenuSessionBean -->
+	<managed-bean>
+		<managed-bean-name>menuSessionBean</managed-bean-name>
+		<managed-bean-class>com.online.module.menuSession.bean.MenuSessionBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>menuSessionService</property-name>
+			<value>#{menuSessionService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- MenuSessionBean -->
+	
+	<!-- SystemBean -->
+	<managed-bean>
+		<managed-bean-name>systemBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.sistem.bean.SystemBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- SystemBean -->
+	
+	<!-- ParameterDetailBean -->
+	<managed-bean>
+		<managed-bean-name>parameterDetailBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.parameter.bean.ParameterDetailBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- ParameterDetailBean -->
+	
+	<!-- ParameterDetailEditBean -->
+	<managed-bean>
+		<managed-bean-name>parameterDetailEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.parameter.bean.ParameterDetailEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterService</property-name>
+			<value>#{parameterService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- ParameterDetailEditBean -->
+	
+	<!-- MenuBean -->
+	<managed-bean>
+		<managed-bean-name>menuBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.menu.bean.MenuBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>menuService</property-name>
+			<value>#{menuService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- MenuBean -->
+	
+	<!-- MenuEditBean -->
+	<managed-bean>
+		<managed-bean-name>menuEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.menu.bean.MenuEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>menuService</property-name>
+			<value>#{menuService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- MenuEditBean -->
+	
+	<!-- PeopleBean -->
+	<managed-bean>
+		<managed-bean-name>peopleBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.people.bean.PeopleBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>peopleService</property-name>
+			<value>#{peopleService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>responsibilityService</property-name>
+			<value>#{responsibilityService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- PeopleBean -->
+	
+	<!-- PeopleEditBean -->
+	<managed-bean>
+		<managed-bean-name>peopleEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.people.bean.PeopleEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>peopleService</property-name>
+			<value>#{peopleService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>responsibilityService</property-name>
+			<value>#{responsibilityService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- PeopleEditBean -->
+	
+	<!-- ResponsibilityBean -->
+	<managed-bean>
+		<managed-bean-name>responsibilityBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.responsibility.bean.ResponsibilityBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>responsibilityService</property-name>
+			<value>#{responsibilityService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- ResponsibilityBean -->
+	
+	<!-- ResponsibilityEditBean -->
+	<managed-bean>
+		<managed-bean-name>responsibilityEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.responsibility.bean.ResponsibilityEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>responsibilityService</property-name>
+			<value>#{responsibilityService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>menuService</property-name>
+			<value>#{menuService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- ResponsibilityEditBean -->
+	
+	<!-- ProductBean -->
+	<managed-bean>
+		<managed-bean-name>productBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.product.bean.ProductBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>productService</property-name>
+			<value>#{productService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- ProductBean -->
+	
+	<!-- ProductEditBean -->
+	<managed-bean>
+		<managed-bean-name>productEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.product.bean.ProductEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>productService</property-name>
+			<value>#{productService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- ProductEditBean -->
+	
+	<!-- PenjualanBean -->
+	<managed-bean>
+		<managed-bean-name>penjualanBean</managed-bean-name>
+		<managed-bean-class>com.online.module.transaction.penjualan.bean.PenjualanBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>penjualanService</property-name>
+			<value>#{penjualanService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- PenjualanBean -->
+	
+	<!-- PenjualanEditBean -->
+	<managed-bean>
+		<managed-bean-name>penjualanEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.transaction.penjualan.bean.PenjualanEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>penjualanService</property-name>
+			<value>#{penjualanService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>productService</property-name>
+			<value>#{productService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>productModalService</property-name>
+			<value>#{productModalService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- PenjualanEditBean -->
+	
+	<!-- SellerBean -->
+	<managed-bean>
+		<managed-bean-name>sellerBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.seller.bean.SellerBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sellerService</property-name>
+			<value>#{sellerService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- SellerBean -->
+	
+</faces-config>

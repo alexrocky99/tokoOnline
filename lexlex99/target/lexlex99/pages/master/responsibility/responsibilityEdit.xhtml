@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formResponsbilityTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formResponsbilityTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{responsibilityEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formResponsbilityAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{responsibilityEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formResponsbilityEditTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formResponsbilityName}" for="name" />
+							</label>
+							<p:inputText id="name" styleClass="form-control" value="#{responsibilityEditBean.responsibility.name}" 
+								required="true" requiredMessage="#{msg.formResponsbilityName} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="name" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formResponsbilityDescription}" for="description" />
+							</label>
+							<p:inputTextarea id="description" rows="5" styleClass="form-control" value="#{responsibilityEditBean.responsibility.description}" />
+						</div>
+					</div>
+					
+					<p:treeTable id="frmResponsibilityMenuTreeTable" value="#{responsibilityEditBean.root}"
+						var="vo" selection="#{responsibilityEditBean.selectedNodes}" selectionMode="checkbox">
+						
+						<p:ajax event="select" listener="#{responsibilityEditBean.onNodeSelect}" />
+						<p:ajax event="unselect" listener="#{responsibilityEditBean.onNodeUnselect}" />
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.formResponsbilityListMenu}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{vo.menuName}" />
+						</p:column>
+					
+					</p:treeTable>
+					
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{responsibilityEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{responsibilityEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+			</div>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

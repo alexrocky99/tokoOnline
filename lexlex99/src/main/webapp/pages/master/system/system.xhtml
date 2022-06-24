@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formSystemTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formSystemTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+					<h:panelGroup id="panelSearch">
+					
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formSystemCode}" />
+								</label>
+								<p:inputText id="systemCode" styleClass="form-control" value="#{systemBean.searchSystemCode}" autocomplete="off"/>
+							</div>
+						</div>
+						
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formSystemStatus}" />
+								</label>
+								<p:inputText id="systemStatus" styleClass="form-control" value="#{systemBean.searchStatus}" autocomplete="off" />
+							</div>
+						</div>
+					</h:panelGroup>
+					
+					<div class="col-lg-12">
+						<div class="filter-tools">
+							<ul class="no-margin no-padding">
+								<li>
+									<p:commandButton value="#{msg.textSearch}" ajax="true" update="tableSistem"
+										styleClass="btn btn-success tl-label" actionListener="#{systemBean.search}">
+									</p:commandButton>
+								</li>
+								<li>
+									<p:commandButton value="#{msg.textReset}" ajax="true" update="tableSistem form:panelSearch"
+										styleClass="btn btn-default btn-flat tl-label" actionListener="#{systemBean.reset}">
+									</p:commandButton>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="col-lg-12">&nbsp;</div>
+						
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<p:dataTable id="tableSistem" paginator="true" var="vo" value="#{systemBean.tableModel}" dynamic="true"
+									lazy="true" emptyMessage="#{msg.textNoData}" rows="10" rowIndexVar="startIndex"
+									styleClass="table table-striped table-hover" rowStyleClass="#{statIndex % 2 == 1 ? 'odd' : null}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+									
+									<p:column style="text-align:center;" headerText="#{msg.textNo}" width="50">
+										<p:outputLabel title="#{startIndex+1}" value="#{startIndex+1}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formSystemCode}" width="100">
+										<p:outputLabel title="#{vo.systemCode}" value="#{vo.systemCode}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formSystemValue}" width="150">
+										<p:outputLabel title="#{vo.systemValue}" value="#{vo.systemValue}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formSystemDescription}" width="30">
+										<p:outputLabel title="#{vo.systemDescription}" value="#{vo.systemDescription}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formSystemStatus}" width="70">
+										<p:inputSwitch value="#{vo.isStatus}">
+											<p:ajax listener="#{systemBean.messagesStatus(vo.isStatus, vo.systemId)}" update="tableSistem form:deletedMessage"></p:ajax>
+										</p:inputSwitch>
+										<p:outputLabel title="#{vo.status}" value="#{vo.status}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+	
+</ui:composition>

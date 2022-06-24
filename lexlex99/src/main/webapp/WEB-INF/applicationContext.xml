@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx 
+		        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		        http://www.springframework.org/schema/context 
+		        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                http://www.springframework.org/schema/jee 
+                http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<context:property-placeholder location="classpath:login.properties" order="3" ignore-unresolvable="true" />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="${login.url}" />
+		<property name="username" value="${login.username}" />
+		<property name="password" value="${login.password}" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="5000" />
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		
+		<property name="mappingResources">
+			<list>
+				<value>com/online/config/hibernate/People.hbm.xml</value>
+				<value>com/online/config/hibernate/Menu.hbm.xml</value>
+				<value>com/online/config/hibernate/System.hbm.xml</value>
+				<value>com/online/config/hibernate/Responsibility.hbm.xml</value>
+				<value>com/online/config/hibernate/ResponsibilityDetail.hbm.xml</value>
+				<value>com/online/config/hibernate/Parameter.hbm.xml</value>
+				<value>com/online/config/hibernate/ParameterDetail.hbm.xml</value>
+				<value>com/online/config/hibernate/Product.hbm.xml</value>
+				<value>com/online/config/hibernate/ProductImage.hbm.xml</value>
+				<value>com/online/config/hibernate/ProductModal.hbm.xml</value>
+				<value>com/online/config/hibernate/ProductModalDetail.hbm.xml</value>
+				<value>com/online/config/hibernate/Penjualan.hbm.xml</value>
+				<value>com/online/config/hibernate/PenjualanDetail.hbm.xml</value>
+				<value>com/online/config/hibernate/Seller.hbm.xml</value>
+				<value>com/online/config/hibernate/Resi.hbm.xml</value>
+				<value>com/online/config/hibernate/ResiDetail.hbm.xml</value>
+			</list>
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.c3p0.acquire_increment">1</prop>
+				<prop key="hibernate.c3p0.idle_test_period">60</prop>
+				<prop key="hibernate.c3p0.min_size">50</prop>
+				<prop key="hibernate.c3p0.max_size">800></prop>
+				<prop key="hibernate.c3p0.max_statements">50></prop>
+				<prop key="hibernate.c3p0.timeout">0</prop>
+				<prop key="hibernate.c3p0.acqurieRetryAttempts">1</prop>
+				<prop key="hibernate.c3p0.testConnectionOnChecout">true</prop>
+				<prop key="hibernate.c3p0.preferredTestQuery">SELECT 1</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<tx:annotation-driven/>
+	<context:component-scan base-package="com.online.module" />
+
+</beans>

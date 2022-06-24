@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.master.product.model">
+	<class name="ProductModalDetail" table="mst_product_modal_detail">
+		<id name="productModalDetailId" column="PRODUCT_MODAL_DETAIL_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one name="productModal" column="product_modal_id"
+			class="com.online.module.master.product.model.ProductModal" fetch="join" />
+		
+		<property name="price" column="PRICE" type="big_decimal" />
+		<property name="stock" column="STOCK" type="int" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+	</class>
+</hibernate-mapping>

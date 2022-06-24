@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+	
+	<composite:interface>
+		<composite:attribute name="header" default="Dialog Box" displayName="Header of the dialog box. Default is 'Dialog Box'" />
+		<composite:attribute name="widgetVar" default="dialog" displayName="Javascript id of this dialog box, default is dialog" />
+		<composite:attribute name="modal" default="true" displayName="To lock or unlock the parent window. Default lock" />
+		<composite:attribute name="width" default="500" displayName="Width of dialog box, default 500" />
+		<composite:attribute name="height" default="500" displayName="Height of dialog box, default 500" />
+		<composite:attribute name="position" default="center" displayName="Position of the dialog box. Default is center" />
+		<composite:attribute name="parameters" displayName="Parameters to be passed to the query" />
+		<composite:attribute name="update" required="true" displayName="Component to be updated after processed" />
+		<composite:attribute name="query" type="java.lang.String" required="true" displayName="Query of the dialog box" />
+		<composite:attribute name="componentToUpdate" type="java.lang.String" displayName="Java attribute identifier to be updated. Used when several attribute of Java's instance to be updated on a single page. Used inside the predefined method 'select'" />
+		<composite:attribute name="columns" type="java.lang.String" required="true" displayName="Columns to be displayed" />
+		<composite:attribute name="selectListener" method-signature="void select(javax.faces.event.ActionEvent)" required="true" displayName="The action listener (method) to be run after the selection of row(s)." />
+		<composite:attribute name="addButtonMsg" displayName="Display message for additional button" />
+		<composite:attribute name="addUpdate" displayName="Component to be updated after processed for additional button" />
+		<composite:attribute name="additionListener" method-signature="void additionSelect(javax.faces.event.ActionEvent)" displayName="The action listener (method) to be run for additional button." />
+		<composite:attribute name="addBtnImmediate" default="true" />
+	</composite:interface>
+	
+	<composite:implementation>
+		<h:form id="tableOfValuesForm" onsubmit="return false;">
+			<p:dialog header="#{cc.attrs.header}" widgetVar="#{cc.attrs.widgetVar}" modal="#{cc.attrs.modal}" 
+				position="#{cc.attrs.position}" width="#{cc.attrs.width}" height="#{cc.attrs.height}">
+				
+				<table>
+					<tr>
+						<td>
+							<h:inputHidden id="hdnQuery" value="#{cc.attrs.query}" binding="#{tableOfValueBean.hdnQuery}" />
+							<h:inputHidden id="componentToUpdate" value="#{cc.attrs.componentToUpdate}" binding="#{tableOfValueBean.componentToUpdate}" />
+							<h:inputHidden id="hdnColumns" value="#{cc.attrs.columns}" binding="#{tableOfValueBean.hdnColumns}" />
+							<h:inputHidden id="hdnParameters" value="#{cc.attrs.parameters}" binding="#{tableOfValueBean.hdnParameters}" />
+							<h:inputText id="txtKeyword" value="#{tableOfValueBean.searchStr}" maxlength="50" size="50" />
+							<span style="padding-left: 10px" />
+							<p:commandButton id="btnFind" actionListener="#{tableOfValueBean.doFind}" update="tblValues btnSelect" value="#{msg.buttonSearch}" 
+								process="txtKeyword @this" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p:dataTable id="tblValues" value="#{tableOfValueBean.listValues}" var="vo" paginator="true" 
+								rows="#{tableOfValueBean.paging}" selection="#{tableOfValueBean.selectedTableOfValue}"
+								rowKey="#{row.columnId}" tableStyle="table-layout: auto;">
+								
+								<p:column headerText="#{tableOfValueBean.column1}" rendered="#{tableOfValueBean.showCol1}">
+									<h:outputText value="#{vo.column1}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column2}" rendered="#{tableOfValueBean.showCol2}">
+									<h:outputText value="#{vo.column2}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column3}" rendered="#{tableOfValueBean.showCol3}">
+									<h:outputText value="#{vo.column3}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column4}" rendered="#{tableOfValueBean.showCol4}">
+									<h:outputText value="#{vo.column4}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column5}" rendered="#{tableOfValueBean.showCol5}">
+									<h:outputText value="#{vo.column5}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column6}" rendered="#{tableOfValueBean.showCol6}">
+									<h:outputText value="#{vo.column6}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column7}" rendered="#{tableOfValueBean.showCol7}">
+									<h:outputText value="#{vo.column7}" />
+								</p:column>
+								<p:column headerText="#{tableOfValueBean.column8}" rendered="#{tableOfValueBean.showCol8}">
+									<h:outputText value="#{vo.column8}" />
+								</p:column>
+								<p:column headerText="#{msg.textAction}">
+									 <p:commandButton id="btnSelect" value="#{msg.textChoose}"
+									 	actionListener="#{cc.attrs.selectListener}" update="tblValues #{cc.attrs.update}" 
+									 	onsuccess="#{cc.attrs.widgetVar}.hide()" process="tblValues @this" >
+									 </p:commandButton>
+								</p:column>
+								
+							</p:dataTable>
+						</td>
+					</tr>
+				</table>
+				
+			</p:dialog>
+		</h:form>
+	</composite:implementation>
+	
+</html>

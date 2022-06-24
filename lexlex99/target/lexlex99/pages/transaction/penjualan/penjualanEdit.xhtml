@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formPenjualanTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formPenjualanTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{penjualanEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formPenjualanTitleAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{penjualanEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formPenjualanTitleEditTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formPenjualanTitleTypePenjualan}" for="typePenjualan" />
+							</label>
+							<h:selectOneMenu id="typePenjualan" styleClass="form-control s2" value="#{penjualanEditBean.penjualan.typePenjualan}"
+								required="true" requiredMessage="#{msg.formPenjualanTitleTypePenjualan} #{msg.validateRequired}">
+								<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+								<f:selectItems value="#{penjualanEditBean.typePenjualanList}" />
+								<p:ajax event="change" update="form:panelOnline" listener="#{penjualanEditBean.onChangeTypePenjualan()}"/>
+							</h:selectOneMenu>
+							<p:message for="typePenjualan" />
+						</div>
+					</div>
+				
+					<h:panelGroup id="panelOnline">
+						<h:panelGroup id="online" rendered="#{penjualanEditBean.formPenjualan eq 1 ? 'true' : 'false'}">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group required">
+										<label class="tl-label">
+											<p:outputLabel value="#{msg.formPenjualanTitleInvoice}" for="invoice" />
+										</label>
+										<p:inputText id="invoice" styleClass="form-control" value="#{penjualanEditBean.penjualan.invoice}" autocomplete="off"
+											required="true" requiredMessage="#{msg.formPenjualanTitleInvoice} #{msg.validateRequired}" />
+										<p:message for="invoice" />
+									</div>
+								</div>
+								
+								<div class="col-lg-6">
+									<div class="form-group required">
+										<label class="tl-label">
+											<p:outputLabel value="#{msg.formPenjualanTitleCustomerName}" for="customerName" />
+										</label>
+										<p:inputText id="customerName" styleClass="form-control" value="#{penjualanEditBean.penjualan.customerName}" autocomplete="off"
+											required="true" requiredMessage="#{msg.formPenjualanTitleCustomerName} #{msg.validateRequired}" />
+										<p:message for="customerName" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-lg-4">
+									<div class="form-group required">
+										<label class="tl-label">
+											<p:outputLabel value="#{msg.formPenjualanTitleTransactionDate}" for="transactionDate" />
+										</label>
+										<p:calendar id="transactionDate" styleClass="form-control-datepicker-wrap" autocomplete="off"
+											value="#{penjualanEditBean.penjualan.transactionDate}" pattern="dd-MMM-yyyy" locale="en"
+											required="true" requiredMessage="#{msg.formPenjualanTitleTransactionDate} #{msg.validateRequired}" />
+										<p:message for="transactionDate" />
+									</div>
+								</div>
+								
+								<div class="col-lg-4">
+									<div class="form-group required">
+										<label class="tl-label">
+											<p:outputLabel value="#{msg.formPenjualanTitlePlatform}" for="platform" />
+										</label>
+										<h:selectOneMenu id="platform" styleClass="form-control s2" value="#{penjualanEditBean.penjualan.platform}"
+											required="true" requiredMessage="#{msg.formPenjualanTitlePlatform} #{msg.validateRequired}">
+											<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+											<f:selectItems value="#{penjualanEditBean.platformList}" />
+											<p:ajax event="change" update="form:panelExpedision" listener="#{penjualanEditBean.onChangePlatform()}" />
+										</h:selectOneMenu>
+										<p:message for="platform" />
+									</div>
+								</div>
+							
+								<h:panelGroup id="panelExpedision">
+									<div class="col-lg-4">
+										<div class="form-group required">
+											<label class="tl-label">
+												<p:outputLabel value="#{msg.formPenjualanTitleExpedision}" for="expedision" />
+											</label>
+											<h:selectOneMenu id="expedision" styleClass="form-control s2" value="#{penjualanEditBean.penjualan.expedision}"
+												required="true" requiredMessage="#{msg.formPenjualanTitleExpedision} #{msg.validateRequired}">
+												<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+												<f:selectItems value="#{penjualanEditBean.expedisionList}" />
+												<p:ajax event="change" update="form:panelResi" listener="#{penjualanEditBean.onChangeEkspedisi()}" />
+											</h:selectOneMenu>
+											<p:message for="expedision" />
+										</div>
+									</div>
+								</h:panelGroup>
+							</div>
+							
+							<h:panelGroup id="panelResi">
+								<div class="col-lg-12">
+									<div class="form-group #{penjualanEditBean.mandatoryResi eq 1 ? 'required' : ''}">
+										<label class="tl-label">
+											<p:outputLabel value="#{msg.formPenjualanTitleReceiptNumber}" for="receiptNumber" />
+										</label>
+										<p:inputText id="receiptNumber" styleClass="form-control" value="#{penjualanEditBean.penjualan.receiptNumber}" 
+											required="#{penjualanEditBean.mandatoryResi eq 1 ? 'true' : 'false'}" 
+											requiredMessage="#{msg.formPenjualanTitleReceiptNumber} #{msg.validateRequired}"
+											autocomplete="off" />
+										<p:message for="receiptNumber" />
+									</div>
+								</div>
+							</h:panelGroup>
+						</h:panelGroup>
+						
+						<h:panelGroup id="offline" rendered="#{penjualanEditBean.formPenjualan eq 0 ? 'true' : 'false'}">
+							<div class="col-lg-12">
+								<div class="form-group required">
+									<label class="tl-label">
+										<p:outputLabel value="#{msg.formPenjualanTitleCustomerName}" for="customerName" />
+									</label>
+									<p:inputText id="customerNameOffline" styleClass="form-control" value="#{penjualanEditBean.penjualan.customerName}" autocomplete="off"
+										required="true" requiredMessage="#{msg.formPenjualanTitleCustomerName} #{msg.validateRequired}" />
+									<p:message for="customerName" />
+								</div>
+							</div>
+							
+							<div class="col-lg-12">
+								<div class="form-group required">
+									<label class="tl-label">
+										<p:outputLabel value="#{msg.formPenjualanTitleTransactionDate}" for="transactionDate" />
+									</label>
+									<p:calendar id="transactionDateOffline" styleClass="form-control-datepicker-wrap" autocomplete="off"
+										value="#{penjualanEditBean.penjualan.transactionDate}" pattern="dd-MMM-yyyy" locale="en"
+										required="true" requiredMessage="#{msg.formPenjualanTitleTransactionDate} #{msg.validateRequired}" />
+									<p:message for="transactionDate" />
+								</div>
+							</div>
+						</h:panelGroup>
+						
+						<h:panelGroup id="detailPenjualan" rendered="#{penjualanEditBean.formPenjualan eq null ? 'false' : 'true'}">
+							<h3>
+								<h:outputText value="#{msg.formPenjualanTitlePenjualanDetailTitle}" />
+							</h3>
+							<div class="col-lg-12">
+								<div id="mp-pic-compliance">
+									<h4 class="sub-header">
+										&nbsp;
+										<div class="box-tools">
+											<ul class="no-margin no-padding">
+												<li>
+													<p:commandLink onclick="onAddNewPenjualanDetail();">
+														<i class="fa fa-plus"></i>
+													</p:commandLink>
+												</li>
+												<li>
+													<p:commandLink onclick="onDeleteRowPenjualanDetail();">
+														<i class="fa fa-trash"></i>
+													</p:commandLink>
+												</li>
+											</ul>
+										</div>
+									</h4>
+								</div>
+								<div class="table-wrapper table-responsive">
+									<p:dataTable id="tablePenjualanDetail" var="vo" value="#{penjualanEditBean.penjualanDetailTableModel}"
+										rowIndexVar="statIndex" style="width:100%;" selection="#{penjualanEditBean.selectedDataPenjualanDetail}"
+										rowKey="#{vo.sequence}" rowSelectMode="checkbox">
+										
+										<p:ajax event="rowSelectCheckbox" process="@this" />
+										<p:ajax event="rowUnselectCheckbox" process="@this" />
+										<p:ajax event="toggleSelect" process="@this" />
+											
+										<p:column selectionMode="multiple" style="text-align:center; width:40px;" />
+											
+										<p:column headerText="#{msg.formPenjualanTitlePenjualanDetailProduct} *">
+											<table>
+												<tr>
+													<td style="width: 80%">
+														<h:inputText id="productDetail#{statIndex}" styleClass="form-control" value="#{vo.namaProduct}" disabled="true" />
+													</td>
+													<td style="width: 20%">
+														<p:commandLink process="@this" oncomplete="productDialog.show();"
+															actionListener="#{penjualanEditBean.initProduct()}" update="form:productDialog">
+															<span><i class="fa fa-search ico-lg"></i></span>
+															<f:setPropertyActionListener target="#{penjualanEditBean.indexProductDetail}" value="#{statIndex}" />
+														</p:commandLink>
+													</td>
+												</tr>
+											</table>
+										</p:column>
+										
+										<p:column headerText="#{msg.formPenjualanTitlePenjualanDetailExtraBubbleWrap}">
+											<h:selectOneMenu id="extraBubbleWrap" styleClass="form-control s2" value="#{vo.isExtraBubbleWrap}">
+												<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+												<f:selectItem itemLabel="#{msg.textYes}" itemValue="Y" />
+												<p:ajax event="change"/>
+											</h:selectOneMenu>
+										</p:column>
+										
+										<p:column headerText="#{msg.formPenjualanTitlePenjualanDetailTotalBuying} *">
+											<p:inputNumber id="totalBuying" thousandSeparator="." styleClass="form-control input-number" decimalPlaces="0"
+												autocomplete="off" value="#{vo.totalBuying}">
+												<p:ajax event="change" />
+											</p:inputNumber>
+										</p:column>
+										
+										<p:column headerText="#{msg.formPenjualanTitlePenjualanDetailHargaJual} *">
+											<p:inputNumber id="hargaJual" thousandSeparator="." styleClass="form-control input-number"
+												autocomplete="off" value="#{vo.sellingPrice}">
+												<p:ajax event="change" />
+											</p:inputNumber>
+										</p:column>
+										
+										<p:column headerText="#{msg.formPenjualanTitlePenjualanDetailRefund}">
+											<h:selectOneMenu id="refund" styleClass="form-control s2" value="#{vo.isRefund}">
+												<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+												<f:selectItem itemLabel="#{msg.textYes}" itemValue="Y" />
+												<p:ajax event="change"/>
+											</h:selectOneMenu>
+										</p:column>
+											
+									</p:dataTable>
+								</div>
+							</div>
+						</h:panelGroup>
+					</h:panelGroup>
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{penjualanEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{penjualanEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+				
+				<p:remoteCommand action="#{penjualanEditBean.onAddNewPenjualanDetail}" immediate="true"
+					name="onAddNewPenjualanDetail" update="tablePenjualanDetail"></p:remoteCommand>
+				<p:remoteCommand action="#{penjualanEditBean.onDeleteRowPenjualanDetail}" immediate="true"
+					name="onDeleteRowPenjualanDetail" update="tablePenjualanDetail"></p:remoteCommand>
+			</div>
+		</div>
+		
+		<p:dialog id="productDialog" position="center" appendToBody="true" fitViewport="true"
+			header="Produk" widgetVar="productDialog" responsive="true" height="500" width="700">
+			
+			<h:form id="selectorFormProductDialog" onsubmit="return false;">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div class="filter-tools">
+								<ul class="action list-inline">
+									<li>
+										<h:outputLink value="#{request.contextPath}/pages/master/product/productEdit.faces" target="_blank">
+											<h:outputText value="#{msg.textAdd} #{msg.formProductTitle}"/>
+										</h:outputLink>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formProductName}"/>
+							</label>
+							<p:inputText id="searchProductNameDialog" styleClass="form-control" value="#{penjualanEditBean.searchProductDialog}" 
+								autocomplete="off">
+								<p:ajax event="change" />
+							</p:inputText>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<p:commandButton value="#{msg.textSearch}" update="@this form:selectorFormProductDialog:tableProductDialog"
+							immediate="true" process="selectorFormProductDialog"
+							styleClass="btn btn-success tl-label" actionListener="#{penjualanEditBean.searchDialog('productDialog')}">
+						</p:commandButton>
+					</div>
+				</div>
+				
+				<p:dataTable id="tableProductDialog" value="#{penjualanEditBean.productList}" var="vo"
+					rows="10" lazy="true" paginator="true" paginatorPosition="top" rowIndexVar="statIndex"
+					reflow="true" styleClass="table-needs-hover-marker">
+					
+					<p:column headerText="#{msg.textNo}" width="20">
+						<h:outputLabel value="#{statIndex + 1}"/>
+					</p:column>
+					
+					<p:column headerText="#{msg.formProductName}" width="150">
+						<h:outputLabel title="#{vo.productName}" value="#{vo.productName}"/>
+					</p:column>
+					
+					<p:column headerText="#{msg.formProductPrice}" width="50">
+						<h:outputText title="#{vo.price}" value="#{vo.price}">
+							<f:convertNumber currencySymbol="Rp. " type="currency"></f:convertNumber>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{msg.formProductCurrentStock}" width="50">
+						<h:outputLabel title="#{vo.totalStock}" value="#{vo.totalStock}"/>
+					</p:column>
+					
+					<p:column headerText="#{msg.textAction}" style="text-align:center;" width="30">
+						<p:commandLink id="btnSelect" value="#{msg.textChoose}" immediate="true"
+							actionListener="#{penjualanEditBean.select(vo.productId, 'productDialog')}" 
+                            update="form:tablePenjualanDetail" 
+                            onsuccess="PF('productDialog').hide();" 
+                            process="@this" >
+                        </p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

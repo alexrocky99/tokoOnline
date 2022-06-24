@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dvs-config>
+	<application ui-validation="true" dummy-user="" />
+	<lexlex99-app app-testing="true"/>
+</dvs-config>

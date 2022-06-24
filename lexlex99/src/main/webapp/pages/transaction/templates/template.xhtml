@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta content="charset=UTF-8" />
+	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+	<title>
+		<ui:insert name="title" />
+	</title>
+	
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="9NuNF06Wn3EYFc9zjfLcnWwobLGK3uZPBPTLClZX" name="csrf-token" />
+	
+	<!-- CSRF Token -->
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport" />
+	
+	<link href="#{request.contextPath}/resources/css/front.css?id=fbdaaa72a3039579bebe" rel="stylesheet" />
+	
+	<link href="#{request.contextPath}/resources/fontawesome/css/fontawesome.css" rel="stylesheet" />
+	
+	<link href="#{request.contextPath}/resources/icons/store.png" rel="icon" />
+	
+	<ui:insert name="head" />
+	
+	<script type="text/javascript">
+		//<![CDATA[
+			function cForm_onSubmit(){
+				PF('statusDialog').show();
+			}
+		//]]>
+	</script>
+	
+	<style>
+		.buttonToLink {
+			background:none!important;
+			border:none!important;
+			padding:0!important;
+			font-family:Montserrat!important;
+			font-weight: normal!important;
+			color: #F3750B!important;
+			cursor:pointer;
+		}
+		.wr {
+			word-wrap: break-word;
+		}
+	</style>
+</h:head>
+
+<h:body styleClass="hold-transition skin-blue sidebar-mini #{headerBean.menu}">
+	<div id="app" class="wrapper">
+		<header class="main-header">
+			<nav class="navbar navbar-static-top">
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				
+				<div class="navbar-custom-menu">
+					<h:form id="logout-form-id">
+						<p:remoteCommand name="hideButton" process="@this" actionListener="#{headerBean.hideMenu}" />
+						<p:remoteCommand name="showButton" process="@this" actionListener="#{headerBean.showMenu}" />
+						
+						<ul class="nav navbar-nav">
+							<li class="dropdown user user-menu">
+								<a href="#" class="dropdown-toggle">
+									<span class="hidden-xs">#{headerBean.username}</span>
+								</a>
+							</li>
+							<li>
+								<h:commandLink actionListener="#{headerBean.doHandleLogout()}">
+									<i class="fa fa-sign-out"></i>
+									<span class="tl-label">#{msg.textLogout}</span>
+								</h:commandLink>
+							</li>
+						</ul>
+					</h:form>
+				</div>
+			</nav>
+		</header>
+		
+		<aside class="main-sidebar">
+			<section class="sidebar">
+				<ul class="sidebar-menu" data-widget="tree">
+					<ui:repeat id="repeatMenuHeader" var="tabMenu" value="#{menuSessionBean.menuList}" varStatus="stat">
+						<li class="treeview " style="#{tabMenu.detail != null ?'':'display:none'}">
+							<a href="#">
+								<i class="fa #{tabMenu.fontawesome}"></i>
+								<span class="tl-label">#{tabMenu.menuName}</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							
+							<ul class="treeview-menu">
+								<ui:repeat id="repeatMenuDtl" var="tabMenuDtl" value="#{tabMenu.detail}" varStatus="stat">
+									<li>
+										<a href="#{tabMenuDtl.menuAction}" class="tl-label">#{tabMenuDtl.menuName}</a>
+									</li>
+								</ui:repeat>
+							</ul>
+						</li>
+						<li class="active" style="#{tabMenu.detail != null ?'display:none':''}">
+							<a href="#{tabMenu.menuAction}">
+								<i class="fa #{tabMenu.fontawesome}"></i>
+								<span class="tl-label">#{tabMenu.menuName}</span>
+							</a>
+						</li>
+					</ui:repeat>
+				</ul>
+			</section>
+		</aside>
+		
+		<h:form id="form">
+			<div class="content-wrapper">
+				<section class="content-header">
+					<h1>
+						<ui:insert name="menuName"></ui:insert>
+						<small></small>
+						<ui:insert name="buttonAdd"></ui:insert>
+					</h1>
+					<ol class="breadcrumb">
+						<li class="active tl-label">
+							<i class="fa fa-th-large"></i>
+							&#160;
+							<ui:insert name="menuName"></ui:insert>
+						</li>
+					</ol>
+				</section>
+				
+				<section class="content">
+					<ui:insert name="ajaxLoading">
+						<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide();" />
+					</ui:insert>
+					
+					<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+						closable="false" resizable="false" showHeader="false"
+						responsive="true" style="background: none; box-shadow: none; border: none;">
+						<h:graphicImage library="icons" name="Wedges-3s-80px.gif" />
+					</p:dialog>
+					
+					<ui:insert name="content" />
+				</section>
+			</div>
+		</h:form>
+		
+		<footer class="main-footer">
+			<div class="pull-right hidden-xs">Lexlex99</div>
+			<strong>Copyright &#169; #{headerBean.copyrigthYear}.</strong> All rights reserved.
+		</footer>
+	</div>
+	
+	<script src="#{request.contextPath}/resources/js/manifest.js?id=2f14240c70fe0f88d8db" charset="utf-8"></script>
+	<script src="#{request.contextPath}/resources/js/vendor.js?id=72dd4b5294cee68800cb" charset="utf-8"></script>
+	<script src="#{request.contextPath}/resources/js/lang.js"></script>
+	<script src="#{request.contextPath}/resources/js/chart.js"></script>
+	<script src="#{request.contextPath}/resources/js/front.js?id=3a051caeb9d1390e2d9a" charset="utf-8"></script>
+	<ui:insert name="footerScript" />
+</h:body>
+
+</html>

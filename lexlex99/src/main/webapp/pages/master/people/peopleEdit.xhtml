@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formPeopleTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formPeopleTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<style>
+			input#form\:dateOfBirth_input {
+			    width: 100%;
+			    background: #eeeeee;
+			}
+		</style>
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{peopleEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formPeopleAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{peopleEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formPeopleEditTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group required">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeopleFullName}" for="fullName" />
+								</label>
+								<p:inputText id="fullName" styleClass="form-control" value="#{peopleEditBean.people.fullName}" 
+									required="true" requiredMessage="#{msg.formPeopleFullName} #{msg.validateRequired}"
+									autocomplete="off" />
+								<p:message for="fullName" />
+							</div>
+						</div>
+						
+						<div class="col-lg-6">
+							<div class="form-group required">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeopleIdentityCard}" for="identityCard" />
+								</label>
+								<p:inputText id="identityCard" styleClass="form-control" value="#{peopleEditBean.people.identityCard}" 
+									required="true" requiredMessage="#{msg.formPeopleIdentityCard} #{msg.validateRequired}"
+									autocomplete="off" />
+								<p:message for="identityCard" />
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group required">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeopleEmail}" for="email" />
+								</label>
+								<p:inputText id="email" styleClass="form-control" value="#{peopleEditBean.people.email}" 
+									required="true" requiredMessage="#{msg.formPeopleEmail} #{msg.validateRequired}"
+									autocomplete="off" />
+								<p:message for="email" />
+							</div>
+						</div>
+						
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeopleMobile}" for="mobile" />
+								</label>
+								<p:inputText id="mobile" styleClass="form-control" value="#{peopleEditBean.people.mobile}" 
+									autocomplete="off" />
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-lg-4">
+							<div class="form-group required">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeopleGender}" for="gender" />
+								</label>
+								<h:selectOneMenu id="gender" styleClass="form-control s2" value="#{peopleEditBean.people.gender}"
+									required="true" requiredMessage="#{msg.formPeopleGender} #{msg.validateRequired}">
+									<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+									<f:selectItems value="#{peopleEditBean.genderList}" />
+								</h:selectOneMenu>
+								<p:message for="gender" />
+							</div>
+						</div>
+					
+						<div class="col-lg-4">
+							<div class="form-group">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeoplePlaceOfBirth}" for="placeOfBirth" />
+								</label>
+								<p:inputText id="placeOfBirth" styleClass="form-control" value="#{peopleEditBean.people.placeOfBirth}" 
+									autocomplete="off" />
+							</div>
+						</div>
+						
+						<div class="col-lg-4">
+							<div class="form-group">
+								<label class="tl-label">
+									<p:outputLabel value="#{msg.formPeopleDateOfBirth}" for="dateOfBirth" />
+								</label>
+								<p:datePicker id="dateOfBirth" value="#{peopleEditBean.people.dateOfBirth}" 
+									monthNavigator="true" yearNavigator="true" style="width:100%;display:block;"
+									showWeek="true" styleClass="form-control-datepicker-wrap"/>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formPeopleAddress}" for="address" />
+							</label>
+							<p:inputTextarea id="address" rows="5" styleClass="form-control" value="#{peopleEditBean.people.address}" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formPeopleResponsibility}" for="responsibility" />
+							</label>
+							<h:selectOneMenu id="responsibility" styleClass="form-control s2" value="#{peopleEditBean.people.responsibilityId}"
+								required="true" requiredMessage="#{msg.formParameterDetailCode} #{msg.validateRequired}">
+								<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+								<f:selectItems value="#{peopleEditBean.responsibilityList}" />
+							</h:selectOneMenu>
+							<p:message for="responsibility" />
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{peopleEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{peopleEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+			</div>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

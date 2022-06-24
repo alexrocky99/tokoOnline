@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formParameterDetailTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formParameterDetailTitle}" />
+	</ui:define>
+	
+	<ui:define name="buttonAdd">
+		<ul class="action list-inline">
+			<li>
+				<h:commandLink action="#{parameterDetailBean.getNavigateEdit()}" type="submit"
+					process="@this" ajax="false" styleClass="tl-label">
+					<i class="fa fa-fw fa-plus" aria-hidden="true"/>
+					<h:outputText value="#{msg.textAdd}" />
+				</h:commandLink>
+			</li>
+		</ul>
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+					<h:panelGroup id="panelSearch">
+					
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formParameterDetailCode}" />
+								</label>
+								<h:selectOneMenu styleClass="form-control s2" value="#{parameterDetailBean.searchCode}">
+									<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+									<f:selectItems value="#{parameterDetailBean.codeList}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+						
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formParameterDetailDetailCode}" />
+								</label>
+								<p:inputText id="detailCode" styleClass="form-control" value="#{parameterDetailBean.searchDetailCode}" autocomplete="off" />
+							</div>
+						</div>
+						
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="tl-label">
+									<h:outputText value="#{msg.formParameterDetailValue}" />
+								</label>
+								<p:inputText id="detailValue" styleClass="form-control" value="#{parameterDetailBean.searchValue}" autocomplete="off" />
+							</div>
+						</div>
+					</h:panelGroup>
+					
+					<div class="col-lg-12">
+						<div class="filter-tools">
+							<ul class="no-margin no-padding">
+								<li>
+									<p:commandButton value="#{msg.textSearch}" ajax="true" update="tableParameterDetail"
+										styleClass="btn btn-success tl-label" actionListener="#{parameterDetailBean.search}">
+									</p:commandButton>
+								</li>
+								<li>
+									<p:commandButton value="#{msg.textReset}" ajax="true" update="tableParameterDetail form:panelSearch"
+										styleClass="btn btn-default btn-flat tl-label" actionListener="#{parameterDetailBean.reset}">
+									</p:commandButton>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="col-lg-12">&nbsp;</div>
+						
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<p:dataTable id="tableParameterDetail" paginator="true" var="vo" value="#{parameterDetailBean.tableModel}" dynamic="true"
+									lazy="true" emptyMessage="#{msg.textNoData}" rows="10" rowIndexVar="startIndex"
+									styleClass="table table-striped table-hover" rowStyleClass="#{statIndex % 2 == 1 ? 'odd' : null}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+									
+									<p:column style="text-align:center;" headerText="#{msg.textNo}" width="50">
+										<p:outputLabel title="#{startIndex+1}" value="#{startIndex+1}" />
+									</p:column>
+									
+									<p:column style="text-align:center" headerText="#{msg.textAction}" width="20">
+										<h:panelGrid columns="2" border="0">
+											<p:commandLink id="edit" action="#{parameterDetailBean.getNavigateEdit()}"
+												type="submit" ajax="false" styleClass="tl-label">
+												<img style="width:20px;height:20px" src="#{request.contextPath}/resources/icons/edit.png" alt="edit" />
+												<f:param name="editId" value="#{vo.parameterDetailId}" />
+											</p:commandLink>
+											
+											<p:commandLink id="Delete" styleClass="tl-label" update="tableParameterDetail form:deletedMessage"
+												action="#{parameterDetailBean.delete(vo.parameterDetailId)}">
+												<img style="width:20px;height:20px" src="#{request.contextPath}/resources/icons/delete.png" alt="delete" />
+												<p:confirm header="Confirmation" message="#{msg.formDeleteMessage}" icon="pi pi-exclamation-triangle" />
+											</p:commandLink>
+										</h:panelGrid>
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formParameterDetailDetailCode}" width="100">
+										<p:outputLabel title="#{vo.detailCode}" value="#{vo.detailCode}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formParameterDetailCode}" width="150">
+										<p:outputLabel title="#{vo.paramValue}" value="#{vo.paramValue}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formParameterDetailValue}" width="30">
+										<p:outputLabel title="#{vo.detailValue}" value="#{vo.detailValue}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formParameterDetailStatus}" width="70">
+										<p:inputSwitch value="#{vo.isStatus}">
+											<p:ajax listener="#{parameterDetailBean.messagesStatus(vo.isStatus, vo.parameterDetailId)}" update="tableParameterDetail form:deletedMessage"></p:ajax>
+										</p:inputSwitch>
+										<p:outputLabel title="#{vo.status}" value="#{vo.status}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<p:confirmDialog id="deleteConfirm" global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="#{msg.textYes}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="#{msg.textNo}" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+		
+	</ui:define>
+	
+</ui:composition>

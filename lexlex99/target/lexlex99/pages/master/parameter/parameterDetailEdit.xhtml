@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formParameterDetailTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formParameterDetailTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{parameterDetailEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formParameterDetailAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{parameterDetailEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formParameterDetailUbahTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formParameterDetailCode}" for="paramCode" />
+							</label>
+							<h:selectOneMenu id="paramCode" styleClass="form-control s2" value="#{parameterDetailEditBean.parameterDetail.parameter.parameterId}"
+								required="true" requiredMessage="#{msg.formParameterDetailCode} #{msg.validateRequired}">
+								<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+								<f:selectItems value="#{parameterDetailEditBean.codeList}" />
+							</h:selectOneMenu>
+							<p:message for="paramCode" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formParameterDetailDetailCode}" for="paramDetailCode" />
+							</label>
+							<p:inputText id="paramDetailCode" styleClass="form-control" value="#{parameterDetailEditBean.parameterDetail.detailCode}" 
+								required="true" requiredMessage="#{msg.formParameterDetailDetailCode} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="paramDetailCode" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formParameterDetailValue}" for="paramDetailValue" />
+							</label>
+							<p:inputText id="paramDetailValue" styleClass="form-control" value="#{parameterDetailEditBean.parameterDetail.detailValue}" 
+								required="true" requiredMessage="#{msg.formParameterDetailValue} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="paramDetailValue" />
+						</div>
+					</div>
+					
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formParameterDetailDescription}" for="paramDetailDescription" />
+							</label>
+							<p:inputTextarea id="paramDetailDescription" rows="5" styleClass="form-control" value="#{parameterDetailEditBean.parameterDetail.detailDescription}" />
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{parameterDetailEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{parameterDetailEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+			</div>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

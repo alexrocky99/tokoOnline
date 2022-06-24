@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formPeopleTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formPeopleTitle}" />
+	</ui:define>
+	
+	<ui:define name="buttonAdd">
+		<ul class="action list-inline">
+			<li>
+				<h:commandLink action="#{peopleBean.getNavigateEdit()}" type="submit"
+					process="@this" ajax="false" styleClass="tl-label">
+					<i class="fa fa-fw fa-plus" aria-hidden="true"/>
+					<h:outputText value="#{msg.textAdd}" />
+				</h:commandLink>
+			</li>
+		</ul>
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+					<h:panelGroup id="panelSearch">
+					
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="tl-label">
+										<h:outputText value="#{msg.formPeopleFullName}" />
+									</label>
+									<p:inputText id="fullName" styleClass="form-control" 
+										value="#{peopleBean.searchName}" autocomplete="off" />
+								</div>
+							</div>
+							
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="tl-label">
+										<h:outputText value="#{msg.formPeopleGender}" />
+									</label>
+									<h:selectOneMenu id="gender" styleClass="form-control s2" value="#{peopleBean.searchGender}">
+										<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+										<f:selectItems value="#{peopleBean.genderList}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label class="tl-label">
+										<h:outputText value="#{msg.formPeopleEmail}" />
+									</label>
+									<p:inputText id="email" styleClass="form-control" 
+										value="#{peopleBean.searchEmail}" autocomplete="off" />
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label class="tl-label">
+										<h:outputText value="#{msg.formPeoplePeopleNumber}" />
+									</label>
+									<p:inputText id="peopleNumber" styleClass="form-control" 
+										value="#{peopleBean.searchPeopleNumber}" autocomplete="off" />
+								</div>
+							</div>
+							
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label class="tl-label">
+										<h:outputText value="#{msg.formPeopleResponsibility}" />
+									</label>
+									<h:selectOneMenu id="responsibility" styleClass="form-control s2" value="#{peopleBean.searchResponsibility}">
+										<f:selectItem itemLabel="--#{msg.textChoose}--" itemValue="" />
+										<f:selectItems value="#{peopleBean.responsibilityList}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+					
+					<div class="col-lg-12">
+						<div class="filter-tools">
+							<ul class="no-margin no-padding">
+								<li>
+									<p:commandButton value="#{msg.textSearch}" ajax="true" update="tablePeople"
+										styleClass="btn btn-success tl-label" actionListener="#{peopleBean.search}">
+									</p:commandButton>
+								</li>
+								<li>
+									<p:commandButton value="#{msg.textReset}" ajax="true" update="tablePeople form:panelSearch"
+										styleClass="btn btn-default btn-flat tl-label" actionListener="#{peopleBean.reset}">
+									</p:commandButton>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="col-lg-12">&nbsp;</div>
+						
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<p:dataTable id="tablePeople" paginator="true" var="vo" value="#{peopleBean.tableModel}" dynamic="true"
+									lazy="true" emptyMessage="#{msg.textNoData}" rows="10" rowIndexVar="startIndex"
+									styleClass="table table-striped table-hover" rowStyleClass="#{statIndex % 2 == 1 ? 'odd' : null}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+									
+									<p:column style="text-align:center;" headerText="#{msg.textNo}">
+										<p:outputLabel title="#{startIndex+1}" value="#{startIndex+1}" />
+									</p:column>
+									
+									<p:column style="text-align:center" headerText="#{msg.textAction}">
+										<h:panelGrid columns="2" border="0">
+											<p:commandLink id="edit" action="#{peopleBean.getNavigateEdit()}"
+												type="submit" ajax="false" styleClass="tl-label">
+												<img style="width:20px;height:20px" src="#{request.contextPath}/resources/icons/edit.png" alt="edit" />
+												<f:param name="editId" value="#{vo.peopleId}" />
+											</p:commandLink>
+											
+											<p:commandLink id="Delete" styleClass="tl-label" update="tablePeople form:deletedMessage"
+												action="#{peopleBean.delete(vo.peopleId)}">
+												<img style="width:20px;height:20px" src="#{request.contextPath}/resources/icons/delete.png" alt="delete" />
+												<p:confirm header="Confirmation" message="#{msg.formDeleteMessage}" icon="pi pi-exclamation-triangle" />
+											</p:commandLink>
+										</h:panelGrid>
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formPeoplePeopleNumber}">
+										<p:outputLabel title="#{vo.peopleNumber}" value="#{vo.peopleNumber}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formPeopleFullName}">
+										<p:outputLabel title="#{vo.fullName}" value="#{vo.fullName}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formPeopleIdentityCard}">
+										<p:outputLabel title="#{vo.identityCard}" value="#{vo.identityCard}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formPeopleEmail}">
+										<p:outputLabel title="#{vo.email}" value="#{vo.email}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formPeopleMobile}">
+										<p:outputLabel title="#{vo.mobile}" value="#{vo.mobile}" />
+									</p:column>
+									
+									<p:column style="text-align:center;" headerText="#{msg.formPeopleResponsibility}">
+										<p:outputLabel title="#{vo.responsibilityName}" value="#{vo.responsibilityName}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<p:confirmDialog id="deleteConfirm" global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="#{msg.textYes}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="#{msg.textNo}" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+		
+	</ui:define>
+	
+</ui:composition>

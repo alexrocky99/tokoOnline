@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.master.menu.model">
+	<class name="Menu" table="mst_menu">
+		<id name="menuId" column="menu_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<property name="name" column="name" type="string" />
+		<property name="action" column="action" type="string" />
+		<property name="parentId" column="parent_id" type="long" />
+		<property name="fontawesome" column="fontawesome" type="string" />
+		<property name="description" column="description" type="string" />
+		<property name="menuLevel" column="menu_level" type="long" />
+		<property name="menuOrder" column="menu_order" type="long" />
+		<property name="menuType" column="menu_type" type="string" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+	</class>
+</hibernate-mapping>

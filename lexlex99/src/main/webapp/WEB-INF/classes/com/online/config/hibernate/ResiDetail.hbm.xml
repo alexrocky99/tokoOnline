@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.transaction.resi.model">
+	<class name="ResiDetail" table="trc_receipt_detail">
+		<id name="receiptDetailId" column="receipt_detail_id" type="long">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one name="resi" column="receipt_id"
+			class="com.online.module.transaction.resi.model.Resi" fetch="join" />
+		<many-to-one name="penjualan" column="penjualan_id"
+			class="com.online.module.transaction.penjualan.model.Penjualan" fetch="join" />
+		<many-to-one name="seller" column="seller_id"
+			class="com.online.module.master.seller.model.Seller" fetch="join" />
+		
+		<property name="receiptNumber" column="receipt_number" type="string" />
+		<property name="expedision" column="expedision" type="string" />
+		<property name="shippingCosts" column="shipping_costs" type="big_decimal" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+	</class>
+</hibernate-mapping>

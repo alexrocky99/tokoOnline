@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.transaction.penjualan.model">
+	<class name="PenjualanDetail" table="trc_penjualan_detail">
+		<id name="penjualanDetailId" column="PENJUALAN_DETAIL_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one name="penjualan" column="penjualan_id"
+			class="com.online.module.transaction.penjualan.model.Penjualan" fetch="join" />
+		<many-to-one name="product" column="product_id"
+			class="com.online.module.master.product.model.Product" fetch="join" />
+		<many-to-one name="productModal" column="product_modal_id"
+			class="com.online.module.master.product.model.ProductModal" fetch="join" />
+		
+		<property name="isExtraBubbleWrap" column="IS_EXTRA_BUBBLE_WRAP" type="string" />
+		<property name="totalBuying" column="TOTAL_BUYING" type="long" />
+		<property name="isRefund" column="IS_REFUND" type="string" />
+		<property name="sellingPrice" column="SELLING_PRICE" type="double" />
+		<property name="margin" column="MARGIN" type="double" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+	</class>
+</hibernate-mapping>

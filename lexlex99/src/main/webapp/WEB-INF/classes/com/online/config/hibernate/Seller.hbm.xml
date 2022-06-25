@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.master.seller.model">
+	<class name="Seller" table="mst_seller">
+		<id name="sellerId" column="SELLER_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<property name="sellerName" column="SELLER_NAME" type="string" />
+		<property name="effectiveStartDate" column="EFFECTIVE_START_DATE" type="date" />
+		<property name="effectiveEndDate" column="EFFECTIVE_END_DATE" type="date" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+	</class>
+</hibernate-mapping>

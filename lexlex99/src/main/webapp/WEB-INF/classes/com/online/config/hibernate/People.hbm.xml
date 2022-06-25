@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.master.people.model">
+	<class name="People" table="mst_people">
+		<id name="peopleId" column="PEOPLE_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<property name="fullName" column="FULL_NAME" type="string" />
+		<property name="identityCard" column="IDENTITY_CARD" type="string" />
+		<property name="email" column="EMAIL" type="string" />
+		<property name="mobile" column="MOBILE" type="string" />
+		<property name="dateOfBirth" column="DATE_OF_BIRTH" type="date" />
+		<property name="placeOfBirth" column="PLACE_OF_BIRTH" type="string" />
+		<property name="password" column="PASSWORD" type="string" />
+		<property name="peopleNumber" column="PEOPLE_NUMBER" type="string" />
+		<property name="address" column="ADDRESS" type="string" />
+		<property name="gender" column="GENDER" type="string" />
+		<property name="responsibilityId" column="RESPONSIBILITY_ID" type="long" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+	</class>
+</hibernate-mapping>

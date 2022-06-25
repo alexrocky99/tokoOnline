@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.master.sistem.model">
+	<class name="System" table="mst_system">
+		<id name="systemId" column="SYSTEM_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<property name="systemCode" column="system_code" type="string" />
+		<property name="systemValue" column="system_value" type="string" />
+		<property name="systemDescription" column="system_description" type="string" />
+		<property name="status" column="status" type="string" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+	</class>
+</hibernate-mapping>

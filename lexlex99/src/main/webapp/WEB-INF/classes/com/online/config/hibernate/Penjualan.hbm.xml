@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.online.module.transaction.penjualan.model">
+	<class name="Penjualan" table="trc_penjualan">
+		<id name="penjualanId" column="PENJUALAN_ID" type="long">
+			<generator class="native" />
+		</id>
+		
+		<property name="invoice" column="INVOICE" type="string" />
+		<property name="transactionDate" column="TRANSACTION_DATE" type="date" />
+		<property name="platform" column="PLATFORM" type="string" />
+		<property name="expedision" column="EXPEDISION" type="string" />
+		<property name="receiptNumber" column="RECEIPT_NUMBER" type="string" />
+		<property name="status" column="STATUS" type="string" />
+		<property name="typePenjualan" column="TYPE_PENJUALAN" type="string" />
+		<property name="customerName" column="CUSTOMER_NAME" type="string" />
+		
+		<property name="createBy" column="create_by" type="string" />
+		<property name="createOn" column="create_on" type="timestamp" />
+		<property name="updateBy" column="update_by" type="string" />
+		<property name="updateOn" column="update_on" type="timestamp" />
+		<property name="recordFlag" column="record_flag" type="string" />
+		
+		<bag name="penjualanDetailList" inverse="true" cascade="save-update, delete-orphan"
+			order-by="penjualan_detail_id asc">
+			<key column="penjualan_id" />
+			<one-to-many not-found="ignore" class="com.online.module.transaction.penjualan.model.PenjualanDetail" />
+		</bag>
+	</class>
+</hibernate-mapping>

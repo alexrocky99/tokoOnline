@@ -14,6 +14,18 @@
 		<h:outputText value="#{msg.formSellerTitle}" />
 	</ui:define>
 	
+	<ui:define name="buttonAdd">
+		<ul class="action list-inline">
+			<li>
+				<h:commandLink action="#{sellerBean.getNavigateEdit()}" type="submit"
+					process="@this" ajax="false" styleClass="tl-label">
+					<i class="fa fa-fw fa-plus" aria-hidden="true"/>
+					<h:outputText value="#{msg.textAdd}" />
+				</h:commandLink>
+			</li>
+		</ul>
+	</ui:define>
+	
 	<ui:define name="content">
 		<div class="box box-solid">
 			<div class="box-body">

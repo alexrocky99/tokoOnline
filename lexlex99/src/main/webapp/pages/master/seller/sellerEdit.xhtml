@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="title">
+		#{msg.formSellerTitle}
+	</ui:define>
+	
+	<ui:define name="menuName">
+		<h:outputText value="#{msg.formSellerTitle}" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title tl-label" tl="new-parameter">
+					<h:panelGroup rendered="#{sellerEditBean.actionMode eq 'ADD'}">
+						<h:outputText value="#{msg.formSellerAddTitle}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{sellerEditBean.actionMode eq 'EDIT'}">
+						<h:outputText value="#{msg.formSellerEditTitle}" />
+					</h:panelGroup>
+				</h3>
+			</div>
+			<div class="box-body">
+				<p:growl id="deletedMessage" globalOnly="true" />
+				<div class="row">
+				
+					<div class="col-lg-12">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formSellerSellerName}" for="sellerName" />
+							</label>
+							<p:inputText id="sellerName" styleClass="form-control" value="#{sellerEditBean.seller.sellerName}" 
+								required="true" requiredMessage="#{msg.formSellerSellerName} #{msg.validateRequired}"
+								autocomplete="off" />
+							<p:message for="sellerName" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					
+					<div class="col-lg-6">
+						<div class="form-group required">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formSellerEffStartDate}" for="sellerEffStartDate" />
+							</label>
+							<p:calendar id="sellerEffStartDate" styleClass="form-control-datepicker-wrap" autocomplete="off"
+								value="#{sellerEditBean.seller.effectiveStartDate}" pattern="dd-MMM-yyyy" locale="en"
+								required="true" requiredMessage="#{msg.formSellerEffStartDate} #{msg.validateRequired}" />
+							<p:message for="sellerEffStartDate" />
+						</div>
+					</div>
+					
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="tl-label">
+								<p:outputLabel value="#{msg.formSellerEffEndDate}" for="sellerEffEndDate" />
+							</label>
+							<p:calendar id="sellerEffEndDate" styleClass="form-control-datepicker-wrap" autocomplete="off"
+								value="#{sellerEditBean.seller.effectiveEndDate}" pattern="dd-MMM-yyyy" locale="en" />
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="box-footer">
+				<p:commandButton value="#{msg.textSave}" type="submit" update="form"
+					styleClass="btn btn-primary pull-left" actionListener="#{sellerEditBean.save()}">
+				</p:commandButton>
+				
+				<h:commandLink value="#{msg.textCancel}" actionListener="#{sellerEditBean.cancel()}" immediate="true"
+					styleClass="btn btn-default pull-right tl-label">
+				</h:commandLink>
+			</div>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

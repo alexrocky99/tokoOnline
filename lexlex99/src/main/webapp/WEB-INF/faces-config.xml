@@ -449,4 +449,28 @@
 	</managed-bean>
 	<!-- SellerBean -->
 	
+	<!-- SellerEditBean -->
+	<managed-bean>
+		<managed-bean-name>sellerEditBean</managed-bean-name>
+		<managed-bean-class>com.online.module.master.seller.bean.SellerEditBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+		<managed-property>
+			<property-name>facesUtil</property-name>
+			<value>#{facesUtil}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>parameterDetailService</property-name>
+			<value>#{parameterDetailService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>systemService</property-name>
+			<value>#{systemService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>sellerService</property-name>
+			<value>#{sellerService}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- SellerEditBean -->
+	
 </faces-config>

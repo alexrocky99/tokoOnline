@@ -157,9 +157,9 @@ public class SellerDaoImpl extends GenericDaoHibernate<Seller, Long> implements 
 			return false;
 		} else {
 			if (result.longValue() > 0) {
-				return false;
-			} else {
 				return true;
+			} else {
+				return false;
 			}
 		}
 	}
